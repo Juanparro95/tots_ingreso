@@ -1,0 +1,75 @@
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+  <p-card class="w-full max-w-md shadow-xl" [style]="{'border-radius': '12px'}">
+    <div class="text-center mb-8">
+      <h1 class="text-3xl font-bold text-indigo-600 mb-2">Crear Cuenta</h1>
+      <p class="text-gray-600">Únete para reservar espacios</p>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="register()" class="space-y-6">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">Nombre</label>
+        <input
+          pInputText
+          type="text"
+          class="w-full"
+          formControlName="name"
+          placeholder="Tu nombre"
+        />
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+        <input
+          pInputText
+          type="email"
+          class="w-full"
+          formControlName="email"
+          placeholder="tu@email.com"
+        />
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">Contraseña</label>
+        <input
+          pInputText
+          type="password"
+          class="w-full"
+          formControlName="password"
+          placeholder="••••••••"
+        />
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">Confirmar Contraseña</label>
+        <input
+          pInputText
+          type="password"
+          class="w-full"
+          formControlName="passwordConfirmation"
+          placeholder="••••••••"
+        />
+        <div class="text-red-500 text-xs mt-1" *ngIf="form.errors?.['passwordMismatch'] && form.touched">
+          Las contraseñas no coinciden
+        </div>
+      </div>
+
+      <button
+        pButton
+        type="submit"
+        label="Registrarse"
+        [disabled]="form.invalid || loading"
+        [loading]="loading"
+        class="w-full"
+        [style]="{'padding': '0.75rem'}"></button>
+    </form>
+
+    <div class="mt-6 text-center">
+      <p class="text-gray-600 text-sm">
+        ¿Ya tienes cuenta?
+        <a (click)="goToLogin()" class="text-indigo-600 hover:text-indigo-700 cursor-pointer font-medium">
+          Inicia sesión aquí
+        </a>
+      </p>
+    </div>
+  </p-card>
+</div>
