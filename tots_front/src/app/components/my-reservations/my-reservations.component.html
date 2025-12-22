@@ -1,22 +1,21 @@
-<div class="bg-gray-50 min-h-screen p-6">
-  <div class="max-w-6xl mx-auto">
+<div class="page">
+  <div class="container">
     <!-- Header -->
-    <div class="mb-8 flex justify-between items-center">
+    <div class="header">
       <div>
-        <h1 class="text-4xl font-bold text-gray-800 mb-2">Mis Reservas</h1>
-        <p class="text-gray-600">Gestiona todas tus reservas de espacios</p>
+        <h1 class="title">Mis Reservas</h1>
+        <p class="subtitle">Gestiona todas tus reservas de espacios</p>
       </div>
       <button
         pButton
         label="Nueva Reserva"
         icon="pi pi-plus"
         (click)="newReservation()"
-        severity="success"
-        [style]="{'padding': '0.75rem 2rem'}"></button>
+        severity="success"></button>
     </div>
 
     <!-- Reservations Table -->
-    <p-card class="shadow-lg">
+    <div class="glass-card">
       <p-table
         [value]="reservations"
         [loading]="loading"
@@ -40,7 +39,7 @@
         <ng-template pTemplate="body" let-reservation>
           <tr>
             <td>
-              <span class="font-semibold text-gray-800">{{ reservation.event_name }}</span>
+              <span style="font-weight: 600; color: #e2e8f0">{{ reservation.event_name }}</span>
             </td>
             <td>
               {{ reservation.space?.name }}
@@ -56,7 +55,7 @@
               <p-tag [value]="getStatus(reservation.start_time)" [severity]="getStatusSeverity(reservation.start_time)" />
             </td>
             <td>
-              <div class="flex gap-2">
+              <div class="action-buttons">
                 <button
                   pButton
                   type="button"
@@ -81,19 +80,21 @@
         <!-- Empty Message -->
         <ng-template pTemplate="emptymessage">
           <tr>
-            <td colspan="6" class="text-center p-6">
-              <i class="pi pi-calendar text-5xl text-gray-300 block mb-4"></i>
-              <p class="text-xl text-gray-500">No tienes reservas aún</p>
-              <p class="text-gray-400">
-                <a (click)="newReservation()" class="text-indigo-600 hover:text-indigo-700 cursor-pointer font-medium">
-                  Crea tu primera reserva
-                </a>
-              </p>
+            <td colspan="6">
+              <div style="text-align: center; padding: 48px 24px">
+                <i class="pi pi-calendar empty-icon"></i>
+                <p class="empty-title">No tienes reservas aún</p>
+                <p style="color: #94a3b8; margin-top: 8px">
+                  <a (click)="newReservation()" class="empty-link">
+                    Crea tu primera reserva
+                  </a>
+                </p>
+              </div>
             </td>
           </tr>
         </ng-template>
       </p-table>
-    </p-card>
+    </div>
   </div>
 </div>
 
@@ -104,13 +105,13 @@
   header="Editar Reserva"
   [style]="{ width: '500px' }"
 >
-  <form [formGroup]="editForm" class="space-y-4">
+  <form [formGroup]="editForm" style="display: grid; gap: 16px">
     <div>
-      <label class="block text-sm font-medium text-gray-700 mb-2">Nombre del Evento</label>
+      <label class="field-label">Nombre del Evento</label>
       <input pInputText formControlName="event_name" class="w-full" />
     </div>
     <div>
-      <label class="block text-sm font-medium text-gray-700 mb-2">Notas</label>
+      <label class="field-label">Notas</label>
       <textarea pInputTextarea formControlName="notes" class="w-full" rows="3"></textarea>
     </div>
   </form>

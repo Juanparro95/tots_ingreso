@@ -1,3 +1,57 @@
-.ng-invalid {
-  border-color: #ef4444 !important;
+/* Reuse the same visual style as login */
+.auth-wrap {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: radial-gradient(1200px 600px at 10% -10%, #dbeafe 0%, transparent 60%),
+              radial-gradient(900px 500px at 90% 110%, #ede9fe 0%, transparent 60%),
+              linear-gradient(135deg, #0f172a 0%, #111827 100%);
+  position: relative;
+  overflow: hidden;
 }
+
+.bg-decor-1, .bg-decor-2 {
+  position: absolute;
+  filter: blur(80px);
+  opacity: 0.4;
+  border-radius: 50%;
+}
+.bg-decor-1 { width: 380px; height: 380px; left: -120px; top: -120px; background: linear-gradient(135deg, #22d3ee, #3b82f6); }
+.bg-decor-2 { width: 420px; height: 420px; right: -140px; bottom: -140px; background: linear-gradient(135deg, #a78bfa, #fb7185); }
+
+.auth-card {
+  width: 100%;
+  max-width: 560px;
+  border-radius: 16px !important;
+  box-shadow: 0 20px 40px rgba(2, 6, 23, 0.5);
+  background: linear-gradient(180deg, #0b1220 0%, #0d1424 100%);
+  color: #e5e7eb;
+}
+.card-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+.logo { width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; border-radius: 12px; background: linear-gradient(135deg, #6366f1, #8b5cf6); color: #fff; box-shadow: 0 8px 20px rgba(99, 102, 241, 0.35); }
+.titles h1 { margin: 0; font-size: 1.5rem; color: #c7d2fe; }
+.titles p { margin: 0; color: #94a3b8; }
+
+.form { display: grid; gap: 1rem; }
+.field label { display: block; font-size: 0.9rem; color: #9ca3af; margin-bottom: 0.5rem; }
+.input { position: relative; }
+.input i { position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); color: #94a3b8; }
+.input input { width: 100%; padding: 0.75rem 1rem 0.75rem 2.25rem; border-radius: 10px; border: 1px solid #1f2937; outline: none; background: #0f172a; color: #e5e7eb; }
+.input input:focus { border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25); }
+
+.p-inputtext, .p-password input { border-radius: 10px !important; background: #0f172a !important; border: 1px solid #1f2937 !important; color: #e5e7eb !important; }
+.p-password input:focus { border-color: #6366f1 !important; box-shadow: 0 0 0 3px rgba(99,102,241,.25) !important; }
+.p-password .p-password-panel { display: none; }
+
+.error { color: #fb7185; font-size: 0.8rem; margin-top: 0.35rem; }
+.ng-invalid { border-color: #fb7185 !important; }
+
+.submit-btn { width: 100%; padding: 0.85rem; font-weight: 600; background: linear-gradient(135deg, #10b981, #059669) !important; border: none; color: white; }
+.submit-btn:hover { filter: brightness(1.08); box-shadow: 0 12px 24px rgba(16,185,129,0.3); }
+
+.divider { height: 1px; background: #1f2937; margin: 1rem 0; }
+.register { display: flex; gap: 0.5rem; justify-content: center; color: #9ca3af; }
+.register a { color: #93c5fd; cursor: pointer; font-weight: 600; }
+.register a:hover { text-decoration: underline; }

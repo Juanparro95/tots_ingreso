@@ -1,16 +1,19 @@
 <nav class="navbar-premium">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-    <div class="flex justify-between items-center h-16 sm:h-20 w-full">
+    <div class="flex justify-between items-center h-14 w-full">
       <!-- Logo Section -->
-      <a routerLink="/" class="flex items-center justify-center gap-2 hover-lift group flex-shrink-0 h-full" title="Ir al inicio">
-        <div class="w-10 h-10 sm:w-5 sm:h-10 rounded-lg gradient-primary flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 flex-shrink-0">
-          <i class="pi pi-building text-white text-lg sm:text-xxl"></i>
+      <a routerLink="/" class="hover-lift group flex-shrink-0 h-full" title="Ir al inicio">
+        <div class="brand-wrap">
+          <img
+            class="brand-logo"
+            src="https://tots.com.ar/wp-content/uploads/2024/01/Logo-Web-Tots.png"
+            alt="TOTS"
+          />
         </div>
-        <span class="navbar-brand hidden sm:inline text-lg sm:text-2xl leading-none">TOTS</span>
       </a>
 
       <!-- Desktop Navigation - Center -->
-      <div class="hidden md:flex items-center gap-6 lg:gap-8 flex-1 justify-center px-8">
+      <div class="hidden md:flex items-center gap-4 flex-1 justify-center px-4">
         <a
           *ngIf="isLoggedIn"
           routerLink="/spaces"
@@ -31,33 +34,38 @@
 
       <!-- Right Section -->
       <div class="flex items-center gap-2 sm:gap-4 lg:gap-6 flex-shrink-0">
-        <!-- User Info - Desktop Only -->
-        <div *ngIf="isLoggedIn" class="hidden lg:flex items-center gap-3 pr-4 border-r border-gray-200">
-          <div class="text-right">
-            <p class="text-sm font-semibold text-slate-900">{{ getCurrentUser()?.name }}</p>
-            <span *ngIf="isAdmin" class="inline-flex items-center gap-1 text-xs">
-              <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
-              <span class="text-emerald-700 font-medium">Admin</span>
-            </span>
-          </div>
-          <div class="w-9 h-9 rounded-full gradient-primary flex items-center justify-center text-white font-bold text-sm shadow-md">
-            {{ (getCurrentUser()?.name || 'U')[0] }}
+        <!-- User Dropdown - Desktop -->
+        <div *ngIf="isLoggedIn" class="hidden lg:block relative">
+          <button
+            (click)="toggleUserMenu()"
+            class="user-trigger flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer"
+            type="button">
+            <div class="w-7 h-7 rounded-full gradient-primary flex items-center justify-center text-white font-semibold text-xs shadow-sm">
+              {{ (getCurrentUser()?.name || 'U')[0] }}
+            </div>
+            <div class="text-left">
+              <p class="user-name text-xs font-medium text-slate-700">{{ getCurrentUser()?.name }}</p>
+              <span *ngIf="isAdmin" class="inline-flex items-center gap-1">
+                <span class="w-1 h-1 bg-emerald-500 rounded-full"></span>
+                <span class="text-emerald-600 font-medium" style="font-size: 10px;">Admin</span>
+              </span>
+            </div>
+            <i class="pi pi-chevron-down text-xs text-slate-500" [ngClass]="{'pi-chevron-up': showUserMenu}"></i>
+          </button>
+
+          <!-- Dropdown Menu -->
+          <div *ngIf="showUserMenu" class="user-dropdown absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-slate-200 py-1 z-50">
+            <button
+              (click)="logout()"
+              class="dropdown-item w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2 transition-colors">
+              <i class="pi pi-sign-out text-slate-500"></i>
+              <span>Cerrar Sesión</span>
+            </button>
           </div>
         </div>
 
         <!-- Actions -->
-        <div class="flex items-center gap-1 sm:gap-3">
-          <button
-            *ngIf="isLoggedIn"
-            (click)="logout()"
-            pButton
-            type="button"
-            icon="pi pi-sign-out"
-            class="p-button-text p-button-sm"
-            pRipple
-            [title]="'Cerrar sesión de ' + getCurrentUser()?.name">
-            <span class="hidden sm:inline ml-2">Salir</span>
-          </button>
+        <div class="flex items-center gap-2">
           <a
             *ngIf="!isLoggedIn"
             routerLink="/login"
@@ -116,6 +124,14 @@
         class="nav-link-mobile">
         <i class="pi pi-calendar mr-3"></i>Mis Reservas
       </a>
+
+      <button
+        *ngIf="isLoggedIn"
+        (click)="logout()"
+        class="nav-link-mobile text-red-600 hover:bg-red-50 w-full text-left">
+        <i class="pi pi-sign-out mr-3"></i>Cerrar Sesión
+      </button>
+
       <div *ngIf="isLoggedIn && isAdmin" class="pt-3 mt-3 border-t border-gray-200">
         <a
           routerLink="/admin"

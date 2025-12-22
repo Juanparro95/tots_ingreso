@@ -1,54 +1,58 @@
-<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
-  <p-card class="w-full max-w-md shadow-xl" [style]="{'border-radius': '12px'}">
-    <div class="text-center mb-8">
-      <h1 class="text-3xl font-bold text-indigo-600 mb-2">Crear Cuenta</h1>
-      <p class="text-gray-600">Únete para reservar espacios</p>
+<div class="auth-wrap">
+  <div class="bg-decor-1"></div>
+  <div class="bg-decor-2"></div>
+
+  <p-card class="auth-card">
+    <div class="card-header">
+      <div class="logo">
+        <i class="pi pi-user-plus"></i>
+      </div>
+      <div class="titles">
+        <h1>Crear Cuenta</h1>
+        <p>Únete para reservar espacios</p>
+      </div>
     </div>
 
-    <form [formGroup]="form" (ngSubmit)="register()" class="space-y-6">
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-2">Nombre</label>
-        <input
-          pInputText
-          type="text"
-          class="w-full"
-          formControlName="name"
-          placeholder="Tu nombre"
-        />
+    <form [formGroup]="form" (ngSubmit)="register()" class="form">
+      <div class="field">
+        <label>Nombre</label>
+        <div class="input">
+          <i class="pi pi-user"></i>
+          <input pInputText type="text" formControlName="name" placeholder="Tu nombre" />
+        </div>
       </div>
 
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
-        <input
-          pInputText
-          type="email"
-          class="w-full"
-          formControlName="email"
-          placeholder="tu@email.com"
-        />
+      <div class="field">
+        <label>Email</label>
+        <div class="input">
+          <i class="pi pi-envelope"></i>
+          <input pInputText type="email" formControlName="email" placeholder="tu@email.com" />
+        </div>
       </div>
 
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-2">Contraseña</label>
-        <input
-          pInputText
-          type="password"
-          class="w-full"
+      <div class="field">
+        <label>Contraseña</label>
+        <p-password
           formControlName="password"
-          placeholder="••••••••"
-        />
+          toggleMask="true"
+          [feedback]="false"
+          [style]="{ width: '100%' }"
+          [inputStyle]="{ width: '100%' }"
+          placeholder="••••••••">
+        </p-password>
       </div>
 
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-2">Confirmar Contraseña</label>
-        <input
-          pInputText
-          type="password"
-          class="w-full"
+      <div class="field">
+        <label>Confirmar Contraseña</label>
+        <p-password
           formControlName="passwordConfirmation"
-          placeholder="••••••••"
-        />
-        <div class="text-red-500 text-xs mt-1" *ngIf="form.errors?.['passwordMismatch'] && form.touched">
+          toggleMask="true"
+          [feedback]="false"
+          [style]="{ width: '100%' }"
+          [inputStyle]="{ width: '100%' }"
+          placeholder="••••••••">
+        </p-password>
+        <div class="error" *ngIf="form.errors?.['passwordMismatch'] && form.touched">
           Las contraseñas no coinciden
         </div>
       </div>
@@ -59,17 +63,14 @@
         label="Registrarse"
         [disabled]="form.invalid || loading"
         [loading]="loading"
-        class="w-full"
-        [style]="{'padding': '0.75rem'}"></button>
+        class="submit-btn"></button>
     </form>
 
-    <div class="mt-6 text-center">
-      <p class="text-gray-600 text-sm">
-        ¿Ya tienes cuenta?
-        <a (click)="goToLogin()" class="text-indigo-600 hover:text-indigo-700 cursor-pointer font-medium">
-          Inicia sesión aquí
-        </a>
-      </p>
+    <div class="divider"></div>
+
+    <div class="register">
+      <span>¿Ya tienes cuenta?</span>
+      <a (click)="goToLogin()">Inicia sesión aquí</a>
     </div>
   </p-card>
 </div>

@@ -1,104 +1,97 @@
-<div class="bg-gray-50 min-h-screen p-6">
-  <div class="max-w-7xl mx-auto">
+<div class="page">
+  <div class="container">
     <!-- Header -->
-    <div class="mb-8">
-      <h1 class="text-4xl font-bold text-gray-800 mb-2">Espacios Disponibles</h1>
-      <p class="text-gray-600">Encuentra y reserva el espacio perfecto para tu evento</p>
+    <div class="header">
+      <h1 class="title">Espacios Disponibles</h1>
+      <p class="subtitle">Encuentra y reserva el espacio perfecto para tu evento</p>
     </div>
 
     <!-- Filters -->
-    <p-card class="mb-6 shadow-md">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+    <div class="glass-card">
+      <div class="filters">
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Buscar</label>
+          <label class="field-label">Buscar</label>
           <input
             pInputText
             [(ngModel)]="searchText"
-            (keyup.enter)="loadSpaces()"
             placeholder="Nombre o descripción"
             class="w-full"
           />
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Capacidad Mínima</label>
-          <p-inputNumber [(ngModel)]="minCapacity" placeholder="0" class="w-full" />
+          <label class="field-label">Capacidad Mínima</label>
+          <p-inputNumber [(ngModel)]="minCapacity" placeholder="0" class="w-full"></p-inputNumber>
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Capacidad Máxima</label>
-          <p-inputNumber [(ngModel)]="maxCapacity" placeholder="999" class="w-full" />
+          <label class="field-label">Capacidad Máxima</label>
+          <p-inputNumber [(ngModel)]="maxCapacity" placeholder="999" class="w-full"></p-inputNumber>
         </div>
-        <div class="flex items-end">
+        <div style="display: flex; align-items: flex-end">
           <button
             pButton
             label="Buscar"
             icon="pi pi-search"
             (click)="loadSpaces()"
             [loading]="loading"
-            class="w-full"></button>
+            style="width: 100%"></button>
         </div>
       </div>
-    </p-card>
+    </div>
 
     <!-- Spaces Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <div *ngFor="let space of spaces" class="group">
-        <p-card class="h-full shadow-md hover:shadow-xl transition-shadow duration-300">
-          <div class="space-y-4">
-            <!-- Image placeholder -->
-            <div class="bg-gradient-to-br from-indigo-100 to-blue-100 h-40 rounded-lg flex items-center justify-center">
-              <i class="pi pi-building text-5xl text-indigo-300"></i>
+    <div class="grid">
+      <div *ngFor="let space of spaces">
+        <div class="space-card">
+          <div class="image-placeholder">
+            <i class="pi pi-building" style="font-size: 48px; color: #93c5fd"></i>
+          </div>
+          <div class="content">
+            <h3 class="name">{{ space.name }}</h3>
+            <p class="description">{{ space.description }}</p>
+
+            <div style="display: grid; gap: 8px; margin-bottom: 12px">
+              <div class="info-row">
+                <i class="pi pi-users" style="color: #60a5fa"></i>
+                <span>Capacidad: {{ space.capacity }} personas</span>
+              </div>
+              <div class="info-row">
+                <i class="pi pi-map-marker" style="color: #60a5fa"></i>
+                <span>{{ space.location }}</span>
+              </div>
+              <div class="price-badge">
+                <i class="pi pi-dollar" style="color: #34d399"></i>
+                <span>{{ formatPrice(space.hourly_rate) }}</span>
+              </div>
             </div>
 
-            <!-- Content -->
-            <div>
-              <h3 class="text-xl font-bold text-gray-800 mb-2">{{ space.name }}</h3>
-              <p class="text-gray-600 text-sm mb-3">{{ space.description }}</p>
-
-              <div class="space-y-2 mb-4">
-                <div class="flex items-center text-gray-700">
-                  <i class="pi pi-users mr-2 text-indigo-600"></i>
-                  <span class="text-sm">Capacidad: {{ space.capacity }} personas</span>
-                </div>
-                <div class="flex items-center text-gray-700">
-                  <i class="pi pi-map-marker mr-2 text-indigo-600"></i>
-                  <span class="text-sm">{{ space.location }}</span>
-                </div>
-                <div class="flex items-center text-indigo-600 font-bold text-lg">
-                  <i class="pi pi-dollar mr-2"></i>
-                  {{ formatPrice(space.hourly_rate) }}
-                </div>
-              </div>
-
-              <!-- Actions -->
-              <div class="flex gap-2">
-                <button
-                  pButton
-                  type="button"
-                  label="Ver Detalles"
-                  icon="pi pi-info-circle"
-                  (click)="viewDetails(space)"
-                  class="flex-1"
-                  severity="info"
-                  [text]="true"></button>
-                <button
-                  pButton
-                  type="button"
-                  label="Reservar"
-                  icon="pi pi-calendar"
-                  (click)="makeReservation(space)"
-                  class="flex-1"
-                  severity="success"></button>
-              </div>
+            <div class="actions">
+              <button
+                pButton
+                type="button"
+                label="Ver Detalles"
+                icon="pi pi-info-circle"
+                (click)="viewDetails(space)"
+                class="action-btn"
+                severity="info"
+                [text]="true"></button>
+              <button
+                pButton
+                type="button"
+                label="Reservar"
+                icon="pi pi-calendar"
+                (click)="makeReservation(space)"
+                class="action-btn"
+                severity="success"></button>
             </div>
           </div>
-        </p-card>
+        </div>
       </div>
     </div>
 
     <!-- Empty state -->
-    <div *ngIf="!loading && spaces.length === 0" class="text-center py-12">
-      <i class="pi pi-inbox text-5xl text-gray-300 block mb-4"></i>
-      <p class="text-xl text-gray-500">No se encontraron espacios</p>
+    <div *ngIf="!loading && spaces.length === 0" class="empty">
+      <i class="pi pi-inbox icon"></i>
+      <p class="text">No se encontraron espacios</p>
     </div>
   </div>
 </div>
@@ -110,22 +103,22 @@
   [header]="selectedSpace?.name"
   [style]="{ width: '500px' }"
 >
-  <div *ngIf="selectedSpace" class="space-y-4">
+  <div *ngIf="selectedSpace" style="display: grid; gap: 12px">
     <div>
-      <label class="font-semibold text-gray-700">Descripción</label>
-      <p class="text-gray-600">{{ selectedSpace.description }}</p>
+      <label class="dialog-label">Descripción</label>
+      <p class="dialog-text">{{ selectedSpace.description }}</p>
     </div>
     <div>
-      <label class="font-semibold text-gray-700">Capacidad</label>
-      <p class="text-gray-600">{{ selectedSpace.capacity }} personas</p>
+      <label class="dialog-label">Capacidad</label>
+      <p class="dialog-text">{{ selectedSpace.capacity }} personas</p>
     </div>
     <div>
-      <label class="font-semibold text-gray-700">Ubicación</label>
-      <p class="text-gray-600">{{ selectedSpace.location }}</p>
+      <label class="dialog-label">Ubicación</label>
+      <p class="dialog-text">{{ selectedSpace.location }}</p>
     </div>
     <div>
-      <label class="font-semibold text-gray-700">Tarifa por Hora</label>
-      <p class="text-indigo-600 font-bold text-lg">{{ formatPrice(selectedSpace.hourly_rate) }}</p>
+      <label class="dialog-label">Tarifa por Hora</label>
+      <p class="dialog-text" style="font-weight: 700; color: #34d399">{{ formatPrice(selectedSpace.hourly_rate) }}</p>
     </div>
 
     <ng-template pTemplate="footer">

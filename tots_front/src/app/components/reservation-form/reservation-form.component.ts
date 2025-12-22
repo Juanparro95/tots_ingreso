@@ -42,7 +42,7 @@ export class ReservationFormComponent implements OnInit {
       event_name: ['', [Validators.required]],
       start_time: ['', [Validators.required]],
       end_time: ['', [Validators.required]],
-      notes: ['']
+      notes: ['', [Validators.maxLength(300)]]
     });
   }
 

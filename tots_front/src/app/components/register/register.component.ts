@@ -7,11 +7,12 @@ import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { CardModule } from 'primeng/card';
+import { PasswordModule } from 'primeng/password';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ButtonModule, InputTextModule, CardModule],
+  imports: [CommonModule, ReactiveFormsModule, ButtonModule, InputTextModule, CardModule, PasswordModule],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })

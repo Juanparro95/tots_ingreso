@@ -82,6 +82,7 @@ export class SpacesComponent implements OnInit {
   }
 
   formatPrice(price: number): string {
-    return '$' + price.toFixed(2) + ' /hora';
+    const fmt = new Intl.NumberFormat('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return '$' + fmt.format(price) + ' /hora';
   }
 }

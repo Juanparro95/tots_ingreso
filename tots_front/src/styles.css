@@ -342,7 +342,6 @@ small {
 
 .p-button-text,
 .p-button-outlined {
-  color: var(--primary-color);
   padding: 0.625rem 1.25rem;
   border: 2px solid var(--primary-light);
   background-color: transparent;

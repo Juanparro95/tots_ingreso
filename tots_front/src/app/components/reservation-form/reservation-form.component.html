@@ -1,100 +1,105 @@
-<div class="bg-gray-50 min-h-screen p-6">
-  <div class="max-w-2xl mx-auto">
-    <p-card class="shadow-lg">
-      <h1 class="text-3xl font-bold text-gray-800 mb-2">Nueva Reserva</h1>
-      <p class="text-gray-600 mb-8">
-        <span *ngIf="spaceName" class="font-semibold text-indigo-600">{{ spaceName }}</span>
-      </p>
+<div class="page">
+  <div class="container">
+    <div class="header">
+      <h1 class="title">Nueva Reserva</h1>
+      <p class="subtitle" *ngIf="spaceName">{{ spaceName }}</p>
+    </div>
 
-      <form [formGroup]="form" (ngSubmit)="createReservation()" class="space-y-6">
-        <!-- Event Name -->
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Nombre del Evento</label>
-          <input
-            pInputText
-            formControlName="event_name"
-            placeholder="Ej: Reunión de equipo"
-            class="w-full"
-            [class.ng-invalid]="form.get('event_name')?.invalid && form.get('event_name')?.touched"
-          />
-          <div class="text-red-500 text-xs mt-1" *ngIf="form.get('event_name')?.invalid && form.get('event_name')?.touched">
-            El nombre del evento es requerido
+    <div class="glass-card">
+      <form [formGroup]="form" (ngSubmit)="createReservation()">
+        <div class="form-grid">
+          <!-- Event Name -->
+          <div>
+            <label class="field-label">Nombre del Evento</label>
+            <input
+              pInputText
+              formControlName="event_name"
+              placeholder="Ej: Reunión de equipo"
+              class="w-full"
+              [class.ng-invalid]="form.get('event_name')?.invalid && form.get('event_name')?.touched"
+            />
+            <div class="dialog-text" style="color:#ef4444;font-size:12px;margin-top:6px" *ngIf="form.get('event_name')?.invalid && form.get('event_name')?.touched">
+              El nombre del evento es requerido
+            </div>
           </div>
-        </div>
 
-        <!-- Start Time -->
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Fecha y Hora de Inicio</label>
-          <p-calendar
-            formControlName="start_time"
-            [showTime]="true"
-            [timeOnly]="false"
-            [hourFormat]="'24'"
-            dateFormat="yy-mm-dd"
-            placeholder="Selecciona fecha y hora"
-            class="w-full"
-          />
-          <div class="text-red-500 text-xs mt-1" *ngIf="form.get('start_time')?.invalid && form.get('start_time')?.touched">
-            La fecha de inicio es requerida
+          <!-- Start & End Time side by side on md+ -->
+          <div class="form-grid two-cols">
+            <div>
+              <label class="field-label">Fecha y Hora de Inicio</label>
+              <p-calendar
+                formControlName="start_time"
+                [showTime]="true"
+                [timeOnly]="false"
+                [hourFormat]="'24'"
+                dateFormat="yy-mm-dd"
+                placeholder="Selecciona fecha y hora"
+                class="w-full"
+              ></p-calendar>
+              <div class="dialog-text" style="color:#ef4444;font-size:12px;margin-top:6px" *ngIf="form.get('start_time')?.invalid && form.get('start_time')?.touched">
+                La fecha de inicio es requerida
+              </div>
+            </div>
+
+            <div>
+              <label class="field-label">Fecha y Hora de Fin</label>
+              <p-calendar
+                formControlName="end_time"
+                [showTime]="true"
+                [timeOnly]="false"
+                [hourFormat]="'24'"
+                dateFormat="yy-mm-dd"
+                placeholder="Selecciona fecha y hora"
+                class="w-full"
+              ></p-calendar>
+              <div class="dialog-text" style="color:#ef4444;font-size:12px;margin-top:6px" *ngIf="form.get('end_time')?.invalid && form.get('end_time')?.touched">
+                La fecha de fin es requerida
+              </div>
+            </div>
           </div>
-        </div>
 
-        <!-- End Time -->
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Fecha y Hora de Fin</label>
-          <p-calendar
-            formControlName="end_time"
-            [showTime]="true"
-            [timeOnly]="false"
-            [hourFormat]="'24'"
-            dateFormat="yy-mm-dd"
-            placeholder="Selecciona fecha y hora"
-            class="w-full"
-          />
-          <div class="text-red-500 text-xs mt-1" *ngIf="form.get('end_time')?.invalid && form.get('end_time')?.touched">
-            La fecha de fin es requerida
+          <!-- Notes -->
+          <div>
+            <label class="field-label">Notas (Opcional)</label>
+            <textarea
+              pInputTextarea
+              formControlName="notes"
+              placeholder="Información adicional sobre tu evento"
+              class="w-full p-inputtextarea"
+              maxlength="300"
+            ></textarea>
+            <div class="field-meta">
+              <span class="field-help">Puedes añadir detalles, requisitos o observaciones.</span>
+              <span class="char-count">{{ (form.get('notes')?.value?.length || 0) }}/300</span>
+            </div>
           </div>
-        </div>
-
-        <!-- Notes -->
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Notas (Opcional)</label>
-          <textarea
-            pInputTextarea
-            formControlName="notes"
-            placeholder="Información adicional sobre tu evento"
-            class="w-full"
-            rows="4"></textarea>
         </div>
 
         <!-- Actions -->
-        <div class="flex gap-4">
+        <div class="actions">
+          <button
+            pButton
+            type="button"
+            label="Cancelar"
+            (click)="cancel()"
+            class="compact-btn"
+            severity="secondary"
+            [text]="true"></button>
           <button
             pButton
             type="submit"
             label="Crear Reserva"
             [disabled]="form.invalid || loading"
             [loading]="loading"
-            class="flex-1"
-            [style]="{'padding': '0.75rem'}"></button>
-          <button
-            pButton
-            type="button"
-            label="Cancelar"
-            (click)="cancel()"
-            severity="secondary"
-            class="flex-1"
-            [text]="true"
-            [style]="{'padding': '0.75rem'}"></button>
+            class="compact-btn"
+          ></button>
         </div>
       </form>
 
-      <div class="mt-8 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-        <p class="text-sm text-blue-800">
-          <i class="pi pi-info-circle mr-2"></i>
-          La reserva será confirmada solo si el horario está disponible en el espacio seleccionado.
-        </p>
+      <div class="hint" style="margin-top:16px">
+        <i class="pi pi-info-circle" style="margin-right:8px"></i>
+        La reserva será confirmada solo si el horario está disponible en el espacio seleccionado.
       </div>
-    </p-card>
+    </div>
   </div>
 </div>

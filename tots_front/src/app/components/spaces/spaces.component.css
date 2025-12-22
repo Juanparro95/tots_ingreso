@@ -1,1 +1,230 @@
-/* Component styles */
+/* Page layout */
+.page {
+	min-height: 100vh;
+	background: linear-gradient(135deg, #111827 0%, #1f2937 40%, #0f172a 100%);
+	padding: 48px 24px;
+	box-sizing: border-box;
+}
+
+.container {
+	max-width: 1200px;
+	margin: 0 auto;
+}
+
+/* Header */
+.header {
+	margin-bottom: 24px;
+}
+
+.title {
+	margin: 0 0 6px 0;
+	font-size: 36px;
+	line-height: 1.2;
+	font-weight: 800;
+	background: linear-gradient(90deg, #60a5fa, #a78bfa, #34d399);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+}
+
+.subtitle {
+	margin: 0;
+	color: #94a3b8;
+}
+
+/* Glass card */
+.glass-card {
+	background: rgba(255, 255, 255, 0.06);
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	border-radius: 16px;
+	padding: 16px;
+	backdrop-filter: blur(10px);
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+	margin-bottom: 24px;
+}
+
+.filters {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 16px;
+}
+
+@media (min-width: 768px) {
+	.filters {
+		grid-template-columns: repeat(4, 1fr);
+	}
+}
+
+.field-label {
+	display: block;
+	font-size: 13px;
+	font-weight: 600;
+	color: #cbd5e1;
+	margin-bottom: 8px;
+}
+
+/* Grid */
+.grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 20px;
+}
+
+@media (min-width: 768px) {
+	.grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media (min-width: 1024px) {
+	.grid {
+		grid-template-columns: repeat(3, 1fr);
+	}
+}
+
+/* Space card */
+.space-card {
+	height: 100%;
+	background: rgba(255, 255, 255, 0.06);
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	border-radius: 16px;
+	overflow: hidden;
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
+	display: flex;
+	flex-direction: column;
+}
+
+.space-card:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+.image-placeholder {
+	height: 160px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: linear-gradient(135deg, rgba(96,165,250,.15), rgba(167,139,250,.15));
+}
+
+.content {
+	padding: 16px;
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+}
+
+.name {
+	margin: 0 0 4px 0;
+	font-size: 20px;
+	font-weight: 700;
+	color: #e2e8f0;
+}
+
+.description {
+	margin: 0 0 12px 0;
+	font-size: 14px;
+	color: #94a3b8;
+}
+
+.info-row {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	color: #cbd5e1;
+	font-size: 14px;
+}
+
+.price-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	font-weight: 700;
+	color: #34d399;
+	font-size: 16px;
+}
+
+.actions {
+	display: flex;
+	gap: 10px;
+	margin-top: auto; /* push actions to bottom regardless of content height */
+	justify-content: flex-end;
+}
+
+.action-btn {
+	padding: 8px 12px;
+	font-size: 13px;
+	border-radius: 10px;
+}
+
+/* Make PrimeNG buttons smaller inside actions */
+:host ::ng-deep .actions .p-button {
+	padding: 0.45rem 0.75rem;
+	font-size: 0.85rem;
+	border-radius: 10px;
+}
+
+:host ::ng-deep .actions .p-button .p-button-icon {
+	font-size: 0.9rem;
+}
+
+:host ::ng-deep .actions .p-button .p-button-label {
+	font-weight: 600;
+}
+
+/* Empty state */
+.empty {
+	text-align: center;
+	padding: 48px 0;
+}
+
+.empty .icon {
+	font-size: 56px;
+	color: #334155;
+	margin-bottom: 12px;
+}
+
+.empty .text {
+	font-size: 18px;
+	color: #64748b;
+}
+
+/* Dialog tweaks: darker overlay and more opaque content for readability */
+:host ::ng-deep .p-dialog-mask,
+:host ::ng-deep .p-component-overlay {
+	background: rgba(3, 7, 18, 0.75); /* deep slate with 75% opacity */
+}
+
+:host ::ng-deep .p-dialog {
+	border-radius: 16px;
+	box-shadow: 0 24px 64px rgba(0, 0, 0, 0.55);
+}
+
+:host ::ng-deep .p-dialog .p-dialog-header {
+	background: rgba(17, 24, 39, 0.92);
+	border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+	color: #e2e8f0;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-title {
+	color: #e2e8f0;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-content {
+	background: rgba(17, 24, 39, 0.95);
+	color: #cbd5e1;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-footer {
+	background: rgba(17, 24, 39, 0.92);
+	border-top: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.dialog-label {
+	font-weight: 600;
+	color: #e2e8f0;
+}
+
+.dialog-text {
+	color: #cbd5e1;
+}
