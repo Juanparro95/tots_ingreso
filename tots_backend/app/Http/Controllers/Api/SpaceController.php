@@ -39,6 +39,13 @@ class SpaceController extends Controller
      *         required=false,
      *         @OA\Schema(type="string", example="Sala")
      *     ),
+     *     @OA\Parameter(
+     *         name="type",
+     *         in="query",
+     *         description="Filter by space type (sala, auditorio, conferencia, taller)",
+     *         required=false,
+     *         @OA\Schema(type="string", enum={"sala", "auditorio", "conferencia", "taller"})
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
@@ -47,6 +54,7 @@ class SpaceController extends Controller
      *                 @OA\Items(
      *                     @OA\Property(property="id", type="integer", example=1),
      *                     @OA\Property(property="name", type="string", example="Sala A"),
+     *                     @OA\Property(property="type", type="string", enum={"sala", "auditorio", "conferencia", "taller"}, example="sala"),
      *                     @OA\Property(property="description", type="string", example="Sala de reuniones pequeña"),
      *                     @OA\Property(property="capacity", type="integer", example=10),
      *                     @OA\Property(property="location", type="string", example="Piso 1"),
@@ -75,6 +83,11 @@ class SpaceController extends Controller
         if ($request->has('search')) {
             $query->where('name', 'like', '%' . $request->search . '%')
                   ->orWhere('description', 'like', '%' . $request->search . '%');
+        }
+
+        // Filter by type
+        if ($request->has('type') && $request->type !== 'null' && $request->type !== null) {
+            $query->where('type', $request->type);
         }
 
         $spaces = $query->get();
@@ -133,8 +146,9 @@ class SpaceController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"name","capacity","location","hourly_rate"},
+     *             required={"name","capacity","location","hourly_rate","type"},
      *             @OA\Property(property="name", type="string", example="Sala VIP"),
+     *             @OA\Property(property="type", type="string", enum={"sala", "auditorio", "conferencia", "taller"}, example="sala"),
      *             @OA\Property(property="description", type="string", example="Sala ejecutiva con pantalla 4K"),
      *             @OA\Property(property="capacity", type="integer", example=20),
      *             @OA\Property(property="location", type="string", example="Piso 5"),
@@ -159,6 +173,7 @@ class SpaceController extends Controller
         try {
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
+                'type' => 'required|string|in:sala,auditorio,conferencia,taller',
                 'description' => 'nullable|string',
                 'capacity' => 'required|integer|min:1',
                 'location' => 'required|string|max:255',
@@ -199,6 +214,7 @@ class SpaceController extends Controller
      *         required=true,
      *         @OA\JsonContent(
      *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="type", type="string", enum={"sala", "auditorio", "conferencia", "taller"}),
      *             @OA\Property(property="description", type="string"),
      *             @OA\Property(property="capacity", type="integer"),
      *             @OA\Property(property="location", type="string"),
@@ -221,6 +237,7 @@ class SpaceController extends Controller
         try {
             $validated = $request->validate([
                 'name' => 'sometimes|string|max:255',
+                'type' => 'sometimes|string|in:sala,auditorio,conferencia,taller',
                 'description' => 'sometimes|nullable|string',
                 'capacity' => 'sometimes|integer|min:1',
                 'location' => 'sometimes|string|max:255',

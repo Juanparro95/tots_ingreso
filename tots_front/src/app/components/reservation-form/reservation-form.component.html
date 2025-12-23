@@ -52,8 +52,11 @@
                 placeholder="Selecciona fecha y hora"
                 class="w-full"
               ></p-calendar>
-              <div class="dialog-text" style="color:#ef4444;font-size:12px;margin-top:6px" *ngIf="form.get('end_time')?.invalid && form.get('end_time')?.touched">
+              <div class="dialog-text" style="color:#ef4444;font-size:12px;margin-top:6px" *ngIf="form.get('end_time')?.hasError('required') && form.get('end_time')?.touched">
                 La fecha de fin es requerida
+              </div>
+              <div class="dialog-text" style="color:#ef4444;font-size:12px;margin-top:6px" *ngIf="form.get('end_time')?.hasError('invalidEndTime')">
+                La fecha y hora de fin debe ser posterior a la fecha y hora de inicio
               </div>
             </div>
           </div>

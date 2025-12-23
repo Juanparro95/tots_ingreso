@@ -386,8 +386,7 @@ class ReservationController extends Controller
             }
 
             $slots[] = [
-                'start' => $slotStart,
-                'end' => $slotEnd,
+                'time' => $slotStart,
                 'available' => $isAvailable,
             ];
         }

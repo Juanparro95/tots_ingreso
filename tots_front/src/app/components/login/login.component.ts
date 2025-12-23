@@ -50,12 +50,13 @@ export class LoginComponent {
 
     this.authService.login(email, password).subscribe({
       next: (response) => {
+        this.loading = false;
         this.notification.success('¡Inicio de sesión exitoso!');
         this.router.navigate(['/spaces']);
       },
       error: (err) => {
-        this.notification.error('Email o contraseña inválidos');
         this.loading = false;
+        this.notification.error('Email o contraseña inválidos');
       }
     });
   }

@@ -6,6 +6,7 @@ import { SpacesComponent } from './components/spaces/spaces.component';
 import { MyReservationsComponent } from './components/my-reservations/my-reservations.component';
 import { ReservationFormComponent } from './components/reservation-form/reservation-form.component';
 import { AuthGuard } from './guards/auth.guard';
+import { AdminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
   {
@@ -34,5 +35,10 @@ export const routes: Routes = [
     path: 'reservations/new',
     component: ReservationFormComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'admin',
+    loadComponent: () => import('./components/admin-spaces/admin-spaces.component').then(m => m.AdminSpacesComponent),
+    canActivate: [AuthGuard, AdminGuard]
   }
 ];

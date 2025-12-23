@@ -1,137 +1,115 @@
-# Frontend - Aplicación de Reserva de Espacios
+# Frontend - TOTS
 
-Una SPA (Single Page Application) construida con **Angular 21** para reservar espacios para eventos.
+SPA con Angular 17 para el sistema de reservas.
 
-## Características
+## Qué hace
 
-- ✅ Autenticación JWT
-- ✅ Sistema de registración e inicio de sesión
-- ✅ Listado de espacios con filtros
-- ✅ Creación y gestión de reservas
-- ✅ Vista detallada de espacios
-- ✅ UI moderna con PrimeNG y Tailwind CSS
-- ✅ Notificaciones en tiempo real (toasts)
-- ✅ Responsive design
+- Los usuarios pueden ver espacios, reservarlos, gestionar sus reservas. 
+- Los admins además pueden administrar los espacios.
 
-## Stack Técnico
+El calendario está disponible en el modal |Ver detalles| -> |Disponibilidad| en la url `/spaces`
 
-- Angular 21
-- TypeScript
-- RxJS
-- PrimeNG (componentes UI)
-- Tailwind CSS
-- Vite
+## Stack
+
+- Angular 17 (standalone components, sin modules)
+- TypeScript 5.4
+- PrimeNG 17 para componentes UI (Calendar, Dialog, Table, etc.)
+- Tailwind CSS para estilos
+- RxJS para manejo de estado y HTTP
+- Vite para build
 
 ## Instalación
 
 ```bash
 cd tots_front
-npm install
+
+# Instalar dependencias
+npm install --legacy-peer-deps
+
+# Levantar el servidor
 npm start
 ```
 
-Disponible en `http://localhost:4200`
+La app estará en `http://localhost:4200`
 
-## Estructura del Proyecto
+**Nota:** El `--legacy-peer-deps` es necesario por algunas dependencias de PrimeNG. Es normal.
+
+## Estructura
 
 ```
 src/app/
 ├── components/
-│   ├── home/              # Página de inicio
-│   ├── login/             # Login
-│   ├── register/          # Registro
-│   ├── navbar/            # Navegación
-│   ├── spaces/            # Listado espacios
-│   ├── reservation-form/  # Crear reserva
-│   └── my-reservations/   # Gestionar reservas
-├── services/              # APIs y lógica
-├── guards/                # Protección rutas
-└── interceptors/          # JWT token
+│   ├── home/                          # Landing page
+│   ├── navbar/                        # Barra de navegación
+│   ├── login/                         # Login
+│   ├── register/                      # Registro
+│   ├── spaces/                        # Listado de espacios
+│   ├── space-availability-calendar/   # El calendario (lo más interesante)
+│   ├── reservation-form/              # Formulario de reserva
+│   ├── my-reservations/               # Mis reservas
+│   └── admin-spaces/                  # Panel admin (CRUD espacios)
+│
+├── services/
+│   ├── auth.service.ts                # Login, registro, JWT
+│   ├── space.service.ts               # CRUD espacios
+│   ├── reservation.service.ts         # CRUD reservas
+│   └── notification.service.ts        # Toasts
+│
+├── guards/
+│   ├── auth.guard.ts                  # Proteger rutas (requiere login)
+│   └── admin.guard.ts                 # Solo admins
+│
+├── interceptors/
+│   └── jwt.interceptor.ts             # Agregar token a requests
+│
+├── app.routes.ts                      # Definición de rutas
+└── app.config.ts                      # Configuración de la app
 ```
 
-## Páginas Principales
+## Rutas
 
-- **`/`** - Inicio
-- **`/login`** - Iniciar sesión
-- **`/register`** - Crear cuenta
-- **`/spaces`** - Listar espacios (privado)
-- **`/my-reservations`** - Mis reservas (privado)
-- **`/reservations/new`** - Nueva reserva (privado)
+| Ruta | Componente | Público | Auth | Admin |
+|------|-----------|---------|------|-------|
+| `/` | Home | Sí | - | - |
+| `/login` | Login | Sí | - | - |
+| `/register` | Register | Sí | - | - |
+| `/spaces` | Spaces | - | Sí | - |
+| `/my-reservations` | MyReservations | - | Sí | - |
+| `/reservations/new` | ReservationForm | - | Sí | - |
+| `/admin` | AdminSpaces | - | Sí | Sí |
 
-## Características Principales
+Las rutas con "Auth" requieren estar logueado. Las de "Admin" requiere que el usuario en linea sea Admin.
 
-1. **Autenticación JWT**: Token seguro almacenado en localStorage
-2. **Filtros de espacios**: Por capacidad y búsqueda de texto
-3. **Gestión de reservas**: Crear, editar y cancelar
-4. **Notificaciones**: Toasts de éxito, error e información
-5. **Responsive**: Móvil, tablet y desktop
-6. **Guards automáticos**: Redirección a login si no está autenticado
+## Componentes principales
 
-## Componentes Destacados
+### Spaces
 
-- **Card**: Tarjetas de espacios y información
-- **Table**: Tabla de reservas con paginación
-- **Dialog**: Modales para detalles y edición
-- **Calendar**: Selector de fecha y hora
-- **Toast**: Notificaciones automáticas
-- **Button**: Botones con iconos
+Listado de espacios con filtros. Muestra cards con info básica de cada espacio. Al hacer click se abre un modal con dos pestañas:
+- **Detalles**: Info completa del espacio
+- **Disponibilidad**: El calendario
 
-## Servicios
+Los filtros incluyen:
+- Búsqueda por nombre
+- Tipo (sala, auditorio, conferencia, taller)
+- Capacidad (min-max)
+- Fecha de disponibilidad
 
-- **AuthService**: Registro, login, token, usuario actual
-- **SpaceService**: CRUD de espacios con filtros
-- **ReservationService**: CRUD de reservas
-- **NotificationService**: Notificaciones (toasts)
+### Space Availability Calendar
 
-## Interceptor JWT
+Muestra un calendario con selector de fecha y un grid de horas disponibles.
 
-Automáticamente añade el token a todas las requests:
-```
-Authorization: Bearer <token>
-```
+**Cómo funciona:**
+1. Seleccionas una fecha
+2. Se hace un request a `/api/spaces/{id}/available-slots?date=YYYY-MM-DD`
+3. El backend devuelve qué horas están libres
+4. Se muestran en un grid: verde = disponible, gris = ocupado
+5. Si haces click en una hora disponible, emite un evento con la fecha/hora
+6. El componente padre recibe el evento y abre el formulario de reserva pre-llenado
 
-## Validaciones
+## Notas finales
 
-- ✓ Email válido
-- ✓ Contraseñas coinciden
-- ✓ Horarios disponibles
-- ✓ Campos requeridos
-- ✓ Formatos de fecha/hora
+El frontend está completo y funcional, se añade la función de Calendario. El diseño es estilo dark y responsive. La autenticación funciona correctamente con JWT.
 
-## Build
+El código está limpio. Los componentes son standalone (Angular 17 style). Los services encapsulan la lógica de API. Los guards protegen las rutas.
 
-```bash
-npm run build
-```
-
-Salida en `dist/`
-
-## Desarrollo
-
-```bash
-npm start
-```
-
-Servidor en puerto 4200 con hot reload.
-
-## Lo Mejor del Frontend
-
-1. **UI moderna**: Diseño limpio con Tailwind + PrimeNG
-2. **Sin dependencias CSS**: Solo Tailwind y PrimeNG
-3. **Componentes standalone**: Arquitectura moderna de Angular
-4. **Responsive**: Perfectamente adaptable a cualquier pantalla
-5. **Mensajes claros**: Notificaciones descriptivas para el usuario
-6. **Accesible**: Buenas prácticas de a11y
-
-## Requisitos
-
-- Node.js 20+
-- npm 10+
-- Backend en `http://localhost:8000`
-
-## Notas Importantes
-
-- Tokens JWT expiran en 24 horas
-- Solo se ven tus propias reservas
-- Edita solo el nombre del evento y notas
-- Horarios se validan automáticamente
+---

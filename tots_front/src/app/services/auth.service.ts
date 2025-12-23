@@ -3,9 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 interface AuthResponse {
-  token: string;
-  user: any;
-  message?: string;
+  message: string;
+  data: {
+    user: any;
+    access_token: string;
+  };
 }
 
 
@@ -29,10 +31,10 @@ export class AuthService {
       password_confirmation: passwordConfirmation
     }).pipe(
       tap(response => {
-        if (response.token) {
-          localStorage.setItem('token', response.token);
-          localStorage.setItem('user', JSON.stringify(response.user));
-          this.currentUserSubject.next(response.user);
+        if (response.data?.access_token) {
+          localStorage.setItem('token', response.data.access_token);
+          localStorage.setItem('user', JSON.stringify(response.data.user));
+          this.currentUserSubject.next(response.data.user);
         }
       })
     );
@@ -44,10 +46,10 @@ export class AuthService {
       password
     }).pipe(
       tap(response => {
-        if (response.token) {
-          localStorage.setItem('token', response.token);
-          localStorage.setItem('user', JSON.stringify(response.user));
-          this.currentUserSubject.next(response.user);
+        if (response.data?.access_token) {
+          localStorage.setItem('token', response.data.access_token);
+          localStorage.setItem('user', JSON.stringify(response.data.user));
+          this.currentUserSubject.next(response.data.user);
         }
       })
     );

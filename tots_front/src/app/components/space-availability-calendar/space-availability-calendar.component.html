@@ -1,0 +1,52 @@
+<div class="calendar-container">
+  <div class="calendar-header">
+    <h3>Disponibilidad por Hora</h3>
+  </div>
+
+  <div class="date-selector">
+    <label>Seleccionar Fecha</label>
+    <p-calendar
+      [(ngModel)]="selectedDate"
+      (onSelect)="onDateSelect()"
+      dateFormat="dd/mm/yy"
+      [showIcon]="true"
+      placeholder="Seleccionar fecha"
+    ></p-calendar>
+  </div>
+
+  <div *ngIf="loading" class="loading">
+    <i class="pi pi-spin pi-spinner"></i>
+    Cargando disponibilidad...
+  </div>
+
+  <div *ngIf="!loading && slots.length > 0" class="slots-grid">
+    <div
+      *ngFor="let time of timeSlots"
+      [ngClass]="getSlotClass(time)"
+      class="time-slot"
+      (click)="onSlotClick(time)"
+      [style.cursor]="getSlotStatus(time) ? 'pointer' : 'not-allowed'"
+    >
+      <div class="time-label">{{ time }}</div>
+      <div class="status-indicator">
+        <i [ngClass]="getSlotStatus(time) ? 'pi pi-check' : 'pi pi-times'"></i>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && slots.length === 0" class="no-data">
+    <i class="pi pi-calendar"></i>
+    <p>Selecciona una fecha para ver la disponibilidad</p>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item">
+      <div class="legend-color available"></div>
+      <span>Disponible</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-color unavailable"></div>
+      <span>No disponible</span>
+    </div>
+  </div>
+</div>

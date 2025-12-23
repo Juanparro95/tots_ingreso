@@ -12,6 +12,7 @@ class SpaceSeeder extends Seeder
         $spaces = [
             [
                 'name' => 'Sala de Reuniones A',
+                'type' => 'sala',
                 'description' => 'Sala pequeña perfecta para reuniones de hasta 6 personas',
                 'capacity' => 6,
                 'location' => 'Piso 1, Ala Norte',
@@ -19,6 +20,7 @@ class SpaceSeeder extends Seeder
             ],
             [
                 'name' => 'Sala de Reuniones B',
+                'type' => 'sala',
                 'description' => 'Sala mediana equipada con proyector y pizarra',
                 'capacity' => 12,
                 'location' => 'Piso 1, Ala Sur',
@@ -26,6 +28,7 @@ class SpaceSeeder extends Seeder
             ],
             [
                 'name' => 'Auditorio Principal',
+                'type' => 'auditorio',
                 'description' => 'Gran auditorio con capacidad para 100 personas, equipado con sistema de sonido profesional',
                 'capacity' => 100,
                 'location' => 'Piso 2',
@@ -33,6 +36,7 @@ class SpaceSeeder extends Seeder
             ],
             [
                 'name' => 'Sala de Conferencias',
+                'type' => 'conferencia',
                 'description' => 'Espacio moderno para videoconferencias y presentaciones',
                 'capacity' => 20,
                 'location' => 'Piso 1, Ala Este',
@@ -40,6 +44,7 @@ class SpaceSeeder extends Seeder
             ],
             [
                 'name' => 'Sala de Capacitación',
+                'type' => 'taller',
                 'description' => 'Espacio versátil para cursos y talleres',
                 'capacity' => 30,
                 'location' => 'Piso 3',

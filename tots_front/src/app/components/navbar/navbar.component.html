@@ -30,6 +30,14 @@
           class="nav-link">
           <i class="pi pi-calendar mr-2"></i><span>Mis Reservas</span>
         </a>
+        <a
+          *ngIf="isLoggedIn && isAdmin"
+          routerLink="/admin"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: false }"
+          class="nav-link">
+          <i class="pi pi-shield mr-2"></i><span>Panel Admin</span>
+        </a>
       </div>
 
       <!-- Right Section -->

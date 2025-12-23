@@ -1,0 +1,345 @@
+.page {
+  min-height: calc(100vh - var(--navbar-height));
+  background: linear-gradient(135deg, #111827 0%, #1f2937 40%, #0f172a 100%);
+  padding: 1.25rem;
+}
+
+.container.glass-card {
+  max-width: 1024px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(2, 8, 23, 0.4);
+  backdrop-filter: blur(10px);
+  padding: 1rem;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.filters {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.field label {
+  display: block;
+  font-size: 0.75rem;
+  color: #e5e7eb;
+  margin-bottom: 0.25rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.375rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.badge-sala {
+  background: rgba(99, 102, 241, 0.2);
+  color: #818cf8;
+}
+
+.badge-auditorio {
+  background: rgba(34, 197, 94, 0.2);
+  color: #86efac;
+}
+
+.badge-conferencia {
+  background: rgba(59, 130, 246, 0.2);
+  color: #93c5fd;
+}
+
+.badge-taller {
+  background: rgba(245, 158, 11, 0.2);
+  color: #fcd34d;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+.dialog-actions .p-button {
+  min-width: 120px;
+  padding: 0.625rem 1.5rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+.row-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+::ng-deep .admin-spaces .row-actions .p-button-text {
+  padding: 0.25rem 0.5rem !important;
+  height: 1.875rem !important;
+  width: 1.875rem !important;
+  min-width: auto !important;
+  font-size: 0.8rem !important;
+}
+
+::ng-deep .admin-spaces .row-actions .p-button-text .p-button-icon {
+  font-size: 0.8rem !important;
+}
+
+/* Table theming */
+::ng-deep .admin-spaces .p-datatable {
+  background: transparent;
+}
+
+::ng-deep .admin-spaces .p-datatable .p-datatable-thead > tr > th {
+  background: rgba(30, 41, 59, 0.7);
+  color: #e5e7eb;
+  border: 1px solid rgba(71, 85, 105, 0.4);
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+::ng-deep .admin-spaces .p-datatable .p-datatable-tbody > tr {
+  background: rgba(255, 255, 255, 0.04);
+  color: #cbd5e1;
+  transition: all 0.2s ease;
+}
+
+::ng-deep .admin-spaces .p-datatable .p-datatable-tbody > tr:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+::ng-deep .admin-spaces .p-datatable .p-datatable-tbody > tr > td {
+  border: 1px solid rgba(71, 85, 105, 0.3);
+  padding: 0.875rem 1rem;
+  font-size: 0.875rem;
+}
+
+::ng-deep .admin-spaces .p-datatable .p-datatable-tbody > tr:nth-child(odd) {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+::ng-deep .admin-spaces .p-datatable .p-datatable-tbody > tr:nth-child(odd):hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Input theming */
+::ng-deep .admin-spaces .p-inputtext,
+::ng-deep .admin-spaces .p-inputnumber-input {
+  background: rgba(17, 24, 39, 0.92);
+  border: 1px solid rgba(71, 85, 105, 0.5);
+  color: #e5e7eb;
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+  height: 2.5rem;
+}
+
+::ng-deep .admin-spaces .p-inputnumber {
+  width: 100%;
+}
+
+::ng-deep .admin-spaces .p-inputnumber .p-inputnumber-input {
+  width: 100%;
+}
+
+::ng-deep .admin-spaces .p-inputtext:focus,
+::ng-deep .admin-spaces .p-inputnumber-input:focus {
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.2);
+  outline: none;
+}
+
+::ng-deep .admin-spaces .p-inputtext::placeholder {
+  color: #64748b;
+}
+
+/* Button theming */
+::ng-deep .admin-spaces .p-button {
+  border-radius: 6px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+::ng-deep .admin-spaces .p-button-sm {
+  padding: 0.5rem 1rem;
+  font-size: 0.8125rem;
+}
+
+::ng-deep .admin-spaces .p-button-primary {
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  border: none;
+  color: white;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+}
+
+::ng-deep .admin-spaces .p-button-primary:hover {
+  background: linear-gradient(135deg, #818cf8 0%, #6366f1 100%);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+  transform: translateY(-1px);
+}
+
+::ng-deep .admin-spaces .p-button-text {
+  color: #94a3b8;
+}
+
+::ng-deep .admin-spaces .p-button-text:hover {
+  background: rgba(148, 163, 184, 0.1);
+  color: #cbd5e1;
+}
+
+::ng-deep .admin-spaces .p-button-text .p-button-icon {
+  font-size: 1rem;
+}
+
+/* Dialog theming */
+::ng-deep .admin-spaces .p-dialog {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  border: 1px solid rgba(71, 85, 105, 0.4);
+  border-radius: 12px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+::ng-deep .admin-spaces .p-dialog .p-dialog-header {
+  background: transparent;
+  border-bottom: 1px solid rgba(71, 85, 105, 0.3);
+  padding: 1.25rem 1.5rem;
+  color: #f1f5f9;
+}
+
+::ng-deep .admin-spaces .p-dialog .p-dialog-content {
+  background: transparent;
+  color: #cbd5e1;
+  padding: 1.5rem;
+}
+
+::ng-deep .admin-spaces .p-dialog .p-dialog-footer {
+  background: transparent;
+  border-top: 1px solid rgba(71, 85, 105, 0.3);
+  padding: 1rem 1.5rem;
+}
+
+::ng-deep .admin-spaces .p-dialog .p-dialog-header-close {
+  color: #94a3b8;
+}
+
+::ng-deep .admin-spaces .p-dialog .p-dialog-header-close:hover {
+  background: rgba(148, 163, 184, 0.1);
+  color: #cbd5e1;
+}
+
+/* InputNumber button theming */
+::ng-deep .admin-spaces .p-inputnumber-button {
+  background: rgba(71, 85, 105, 0.3);
+  border: 1px solid rgba(71, 85, 105, 0.5);
+  color: #94a3b8;
+  width: 2rem !important;
+  height: 1.25rem !important;
+  padding: 0 !important;
+  font-size: 0.65rem !important;
+}
+
+::ng-deep .admin-spaces .p-inputnumber-button:hover {
+  background: rgba(71, 85, 105, 0.5);
+  color: #cbd5e1;
+}
+
+::ng-deep .admin-spaces .p-inputnumber-button-up,
+::ng-deep .admin-spaces .p-inputnumber-button-down {
+  width: 2rem !important;
+  height: 1.25rem !important;
+}
+
+::ng-deep .admin-spaces .p-inputnumber-button .pi {
+  font-size: 0.65rem !important;
+}
+
+/* Dropdown theming */
+::ng-deep .admin-spaces .p-dropdown {
+  background: rgba(17, 24, 39, 0.92);
+  border: 1px solid rgba(71, 85, 105, 0.5);
+  color: #e5e7eb;
+  border-radius: 6px;
+  width: 100%;
+}
+
+::ng-deep .admin-spaces .p-dropdown .p-dropdown-trigger {
+  background: rgba(71, 85, 105, 0.3);
+  color: #94a3b8;
+  border-left: 1px solid rgba(71, 85, 105, 0.5);
+}
+
+::ng-deep .admin-spaces .p-dropdown .p-dropdown-trigger:hover {
+  background: rgba(71, 85, 105, 0.5);
+}
+
+::ng-deep .admin-spaces .p-dropdown:focus {
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.2);
+  outline: none;
+}
+
+::ng-deep .admin-spaces .p-dropdown-panel {
+  background: rgba(17, 24, 39, 0.98);
+  border: 1px solid rgba(71, 85, 105, 0.4);
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+::ng-deep .admin-spaces .p-dropdown-items {
+  background: transparent;
+}
+
+::ng-deep .admin-spaces .p-dropdown-item {
+  color: #cbd5e1;
+}
+
+::ng-deep .admin-spaces .p-dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #e5e7eb;
+}
+
+::ng-deep .admin-spaces .p-dropdown-item.p-highlight {
+  background: rgba(99, 102, 241, 0.2);
+  color: #818cf8;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filters {
+    flex-direction: column;
+  }
+
+  .field {
+    width: 100%;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}

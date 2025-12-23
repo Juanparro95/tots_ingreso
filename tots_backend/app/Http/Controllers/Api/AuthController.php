@@ -81,8 +81,10 @@ class AuthController extends Controller
 
             return response()->json([
                 'message' => 'User registered successfully',
-                'user' => $user,
-                'token' => $token,
+                'data' => [
+                    'user' => $user,
+                    'access_token' => $token,
+                ]
             ], 201);
         } catch (ValidationException $e) {
             return response()->json([
@@ -139,8 +141,10 @@ class AuthController extends Controller
 
             return response()->json([
                 'message' => 'Login successful',
-                'user' => $user,
-                'token' => $token,
+                'data' => [
+                    'user' => $user,
+                    'access_token' => $token,
+                ]
             ], 200);
         } catch (ValidationException $e) {
             return response()->json([
@@ -163,7 +167,7 @@ class AuthController extends Controller
      *         response=200,
      *         description="Successful operation",
      *         @OA\JsonContent(
-     *             @OA\Property(property="user", type="object",
+     *             @OA\Property(property="data", type="object",
      *                 @OA\Property(property="id", type="integer"),
      *                 @OA\Property(property="name", type="string"),
      *                 @OA\Property(property="email", type="string"),
@@ -177,7 +181,7 @@ class AuthController extends Controller
     public function me(): JsonResponse
     {
         return response()->json([
-            'user' => auth('api')->user(),
+            'data' => auth('api')->user(),
         ]);
     }
 
@@ -202,7 +206,14 @@ class AuthController extends Controller
      */
     public function logout(): JsonResponse
     {
-        JWTAuth::invalidate(JWTAuth::getToken());
+        try {
+            $token = JWTAuth::getToken();
+            if ($token) {
+                JWTAuth::invalidate($token);
+            }
+        } catch (\Exception $e) {
+            // Token invalidation failed, but logout can still succeed
+        }
 
         return response()->json([
             'message' => 'Logged out successfully',

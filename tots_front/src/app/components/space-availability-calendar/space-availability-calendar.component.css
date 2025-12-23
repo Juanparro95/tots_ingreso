@@ -1,0 +1,236 @@
+.calendar-container {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 28px;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+}
+
+.calendar-header {
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.calendar-header h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #60a5fa, #a78bfa, #34d399);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.date-selector {
+  margin-bottom: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.date-selector label {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #cbd5e1;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.date-selector ::ng-deep .p-calendar {
+  width: 100%;
+  max-width: 320px;
+}
+
+.date-selector ::ng-deep .p-inputtext {
+  font-weight: 500;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px;
+  color: #94a3b8;
+  font-size: 0.9375rem;
+}
+
+.loading i {
+  font-size: 1.25rem;
+}
+
+.slots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.time-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px 16px;
+  border-radius: 12px;
+  border: 2px solid;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+}
+
+.time-slot::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.time-label {
+  font-size: 1rem;
+  font-weight: 700;
+  z-index: 1;
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.375rem;
+  z-index: 1;
+}
+
+.slot-available {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(5, 150, 105, 0.15) 100%);
+  border-color: rgba(16, 185, 129, 0.5);
+  color: #34d399;
+}
+
+.slot-available .time-label {
+  color: #6ee7b7;
+}
+
+.slot-available .status-indicator {
+  color: #34d399;
+}
+
+.slot-available::before {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(5, 150, 105, 0.2) 100%);
+}
+
+.slot-available:hover {
+  border-color: rgba(16, 185, 129, 0.7);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 12px 24px rgba(16, 185, 129, 0.25);
+}
+
+.slot-available:hover::before {
+  opacity: 1;
+}
+
+.slot-unavailable {
+  background: linear-gradient(135deg, rgba(148, 163, 184, 0.08) 0%, rgba(100, 116, 139, 0.08) 100%);
+  border-color: rgba(148, 163, 184, 0.3);
+  opacity: 0.6;
+}
+
+.slot-unavailable .time-label {
+  color: #94a3b8;
+}
+
+.slot-unavailable .status-indicator {
+  color: #64748b;
+}
+
+.no-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 48px 24px;
+  color: #64748b;
+  text-align: center;
+}
+
+.no-data i {
+  font-size: 3rem;
+  opacity: 0.5;
+}
+
+.no-data p {
+  margin: 0;
+  font-size: 0.9375rem;
+}
+
+.legend {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+  padding-top: 20px;
+  margin-top: 8px;
+  border-top: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #cbd5e1;
+}
+
+.legend-color {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.legend-color.available {
+  background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+}
+
+.legend-color.unavailable {
+  background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%);
+}
+
+@media (max-width: 640px) {
+  .calendar-container {
+    padding: 20px;
+  }
+
+  .calendar-header h3 {
+    font-size: 1.25rem;
+  }
+
+  .slots-grid {
+    grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+    gap: 12px;
+  }
+
+  .time-slot {
+    padding: 16px 12px;
+  }
+
+  .time-label {
+    font-size: 0.875rem;
+  }
+
+  .status-indicator {
+    font-size: 1.125rem;
+  }
+
+  .legend {
+    flex-direction: column;
+    gap: 14px;
+    align-items: center;
+  }
+}

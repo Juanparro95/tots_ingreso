@@ -26,6 +26,10 @@
           <label class="field-label">Capacidad Máxima</label>
           <p-inputNumber [(ngModel)]="maxCapacity" placeholder="999" class="w-full"></p-inputNumber>
         </div>
+        <div>
+          <label class="field-label">Fecha de Disponibilidad</label>
+          <p-calendar [(ngModel)]="selectedDate" (onSelect)="onDateChange()" dateFormat="dd/mm/yy" [showIcon]="true" placeholder="Seleccionar fecha" class="w-full"></p-calendar>
+        </div>
         <div style="display: flex; align-items: flex-end">
           <button
             pButton
@@ -58,9 +62,17 @@
                 <i class="pi pi-map-marker" style="color: #60a5fa"></i>
                 <span>{{ space.location }}</span>
               </div>
+              <div *ngIf="space.type" class="info-row">
+                <i class="pi pi-tag" style="color: #a78bfa"></i>
+                <span class="badge" [ngClass]="'badge-' + space.type">{{ space.type | titlecase }}</span>
+              </div>
               <div class="price-badge">
                 <i class="pi pi-dollar" style="color: #34d399"></i>
                 <span>{{ formatPrice(space.hourly_rate) }}</span>
+              </div>
+              <div *ngIf="selectedDate" class="availability-indicator" [ngClass]="getAvailabilityClass(space.id || 0)">
+                <i class="pi pi-check-circle" style="font-size: 0.875rem"></i>
+                <span>{{ getAvailabilityPercentage(space.id || 0) }}% disponible</span>
               </div>
             </div>
 
@@ -101,25 +113,39 @@
   [(visible)]="detailsVisible"
   [modal]="true"
   [header]="selectedSpace?.name"
-  [style]="{ width: '500px' }"
+  [style]="{ width: '800px' }"
 >
-  <div *ngIf="selectedSpace" style="display: grid; gap: 12px">
-    <div>
-      <label class="dialog-label">Descripción</label>
-      <p class="dialog-text">{{ selectedSpace.description }}</p>
-    </div>
-    <div>
-      <label class="dialog-label">Capacidad</label>
-      <p class="dialog-text">{{ selectedSpace.capacity }} personas</p>
-    </div>
-    <div>
-      <label class="dialog-label">Ubicación</label>
-      <p class="dialog-text">{{ selectedSpace.location }}</p>
-    </div>
-    <div>
-      <label class="dialog-label">Tarifa por Hora</label>
-      <p class="dialog-text" style="font-weight: 700; color: #34d399">{{ formatPrice(selectedSpace.hourly_rate) }}</p>
-    </div>
+  <div *ngIf="selectedSpace">
+    <p-tabView>
+      <p-tabPanel header="Detalles">
+        <div style="display: grid; gap: 12px; padding: 20px 0">
+          <div>
+            <label class="dialog-label">Descripción</label>
+            <p class="dialog-text">{{ selectedSpace.description }}</p>
+          </div>
+          <div>
+            <label class="dialog-label">Capacidad</label>
+            <p class="dialog-text">{{ selectedSpace.capacity }} personas</p>
+          </div>
+          <div>
+            <label class="dialog-label">Ubicación</label>
+            <p class="dialog-text">{{ selectedSpace.location }}</p>
+          </div>
+          <div>
+            <label class="dialog-label">Tarifa por Hora</label>
+            <p class="dialog-text" style="font-weight: 700; color: #34d399">{{ formatPrice(selectedSpace.hourly_rate) }}</p>
+          </div>
+        </div>
+      </p-tabPanel>
+
+      <p-tabPanel header="Disponibilidad">
+        <app-space-availability-calendar
+          [spaceId]="selectedSpace.id!"
+          (timeSelected)="onTimeSelected($event)"
+          style="display: block; padding: 20px 0">
+        </app-space-availability-calendar>
+      </p-tabPanel>
+    </p-tabView>
 
     <ng-template pTemplate="footer">
       <button

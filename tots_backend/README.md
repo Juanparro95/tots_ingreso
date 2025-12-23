@@ -1,98 +1,113 @@
-# API de Reserva de Espacios para Eventos
+# Backend API - TOTS
 
-Una API REST construida con **Laravel 12** para gestionar la reserva de espacios (salas de reuniones, auditorios, etc.) para eventos.
+API REST con Laravel 12 para gestionar reservas de espacios.
 
-## Características
+## Lo que hace
 
-- ✅ Autenticación JWT
-- ✅ CRUD completo para espacios y reservas
-- ✅ Validación automática de conflictos horarios
-- ✅ Sistema de roles (Admin/Usuario)
-- ✅ Suite de tests automáticos
-- ✅ Generador de slots disponibles por fecha
+Es el backend del sistema de reservas. Maneja usuarios, espacios y reservas. Tiene autenticación con JWT, valida que las reservas no se repitan, y respeta los permisos de admin vs usuario normal.
 
 ## Stack
 
 - Laravel 12
 - PHP 8.2+
-- MySQL/SQLite
-- JWT Auth
-- PHPUnit
+- MySQL (desarrollo y producción)
+- SQLite (para tests)
+- JWT para auth (tymon/jwt-auth)
+- PHPUnit para testing
+- Swagger/L5-Swagger para docs
 
-## Quick Start
+## Instalación
 
 ```bash
-# 1. Instalar
 cd tots_backend
+
+# 1. Copiar el archivo de entorno, editarlo según corresponda
+cp .env.example .env
+
+# 2. Instalar dependencias
 composer install
 
-# 2. Configurar
-cp .env.example .env
+# 3. Generar las keys
 php artisan key:generate
+php artisan jwt:secret
 
-# 3. Base de datos
-php artisan migrate --seed
+# 4. Configurar la base de datos en .env
+# DB_DATABASE=tots_db
+# DB_USERNAME=root
+# DB_PASSWORD=tu_password
 
-# 4. Correr
+# 5. Crear la base de datos (si no existe)
+# mysql -u root -p
+# CREATE DATABASE tots_db;
+# exit;
+
+# 6. Correr migraciones
+php artisan migrate
+
+# 7. Seed con datos de prueba
+php artisan db:seed
+
+# 8. Levantar el servidor
 php artisan serve
 ```
 
-Disponible en `http://localhost:8000`
+La API estará disponible en `http://localhost:8000/api`
 
-## 📚 Documentación API (Swagger)
+## Autenticación
 
-La documentación interactiva de la API está disponible en:
+Uso JWT. Básicamente:
 
-**URL**: `http://localhost:8000/api/documentation`
+1. Usuario se registra o loguea
+2. El Backend devuelve un token JWT
+3. El Frontend guarda el token
+4. Todos los requests envia automáticamente en el header el `Authorization: Bearer {token}`
+5. El token expira en 60 minutos
 
-Para regenerar la documentación después de cambios:
-```bash
-php artisan l5-swagger:generate
+## Endpoints
+
+### Auth
+
+| Método | Ruta | Descripción | Auth | Admin |
+|--------|------|-------------|------|-------|
+| POST | `/api/auth/register` | Crear cuenta | No | No |
+| POST | `/api/auth/login` | Obtener token | No | No |
+| POST | `/api/auth/logout` | Invalidar token | Sí | No |
+| GET | `/api/auth/me` | Info del usuario actual | Sí | No |
+
+### Spaces
+
+| Método | Ruta | Descripción | Auth | Admin |
+|--------|------|-------------|------|-------|
+| GET | `/api/spaces` | Listar espacios (con filtros) | Sí | No |
+| POST | `/api/spaces` | Crear espacio | Sí | Sí |
+| GET | `/api/spaces/{id}` | Ver un espacio | Sí | No |
+| PUT | `/api/spaces/{id}` | Actualizar espacio | Sí | Sí |
+| DELETE | `/api/spaces/{id}` | Eliminar espacio | Sí | Sí |
+| GET | `/api/spaces/{id}/available-slots` | Slots disponibles por fecha | Sí | No |
+
+**Filtros para GET `/api/spaces`:**
+- `search` - Buscar por nombre
+- `type` - Filtrar por tipo (sala, auditorio, conferencia, taller)
+- `min_capacity` - Capacidad mínima
+- `max_capacity` - Capacidad máxima
+- `date` - Ver solo los disponibles en esta fecha
+
+**Ejemplo:**
+```
+GET /api/spaces?type=sala&min_capacity=10&date=2025-12-25
 ```
 
-## API Endpoints
+### Reservations
 
-### Autenticación
-- `POST /api/auth/register` - Registrar nuevo usuario
-- `POST /api/auth/login` - Login y recibir token
-- `POST /api/auth/logout` - Logout (requiere token)
-- `GET /api/auth/me` - Ver usuario actual
-- `POST /api/auth/refresh` - Refrescar token
+| Método | Ruta | Descripción | Auth | Admin |
+|--------|------|-------------|------|-------|
+| GET | `/api/reservations` | Mis reservas | Sí | No |
+| POST | `/api/reservations` | Crear reserva | Sí | No |
+| GET | `/api/reservations/{id}` | Ver una reserva | Sí | No |
+| PUT | `/api/reservations/{id}` | Actualizar reserva | Sí | No |
+| DELETE | `/api/reservations/{id}` | Cancelar reserva | Sí | No |
 
-### Espacios
-- `GET /api/spaces` - Listar todos con filtros
-  - Parámetros: `min_capacity`, `max_capacity`, `search`
-- `GET /api/spaces/{id}` - Ver detalle
-- `POST /api/spaces` - Crear (Admin)
-- `PUT /api/spaces/{id}` - Actualizar (Admin)
-- `DELETE /api/spaces/{id}` - Eliminar (Admin)
-
-### Reservas
-- `GET /api/reservations` - Ver mis reservas
-- `GET /api/reservations/{id}` - Ver detalle
-- `POST /api/reservations` - Crear reserva
-- `PUT /api/reservations/{id}` - Modificar reserva
-- `DELETE /api/reservations/{id}` - Cancelar reserva
-- `GET /api/reservations/available-slots` - Slots libres
-  - Parámetros: `space_id`, `date` (Y-m-d)
-
-## Base de Datos
-
-**Usuarios**
-- id, name, email, password, is_admin
-
-**Espacios**
-- id, name, description, capacity, location, image_url, hourly_rate
-
-**Reservas**
-- id, space_id, user_id, event_name, start_time, end_time, notes
-
-## Seeders
-
-Ejecutar `php artisan migrate --seed` crea:
-- 1 admin: `admin@example.com`
-- 5 usuarios de prueba
-- 5 espacios de ejemplo
+Los usuarios solo pueden ver/editar/eliminar sus propias reservas. La validación de overlaps es automática - si intentas reservar un horario ocupado, te devuelve error 422.
 
 ## Testing
 
@@ -100,51 +115,14 @@ Ejecutar `php artisan migrate --seed` crea:
 php artisan test
 ```
 
-Pruebas incluidas:
-- Autenticación (registro, login, validaciones)
-- Espacios (CRUD con permisos)
-- Reservas (crear, modificar, eliminar, conflictos horarios)
+## Swagger Documentation
 
-## Ejemplo de Uso
+La API está documentada con Swagger. Para verla:
 
 ```bash
-# Login
-curl -X POST http://localhost:8000/api/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{
-    "email": "admin@example.com",
-    "password": "password"
-  }'
-
-# Crear reserva (con token obtenido)
-curl -X POST http://localhost:8000/api/reservations \
-  -H "Authorization: Bearer YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "space_id": 1,
-    "event_name": "Team Meeting",
-    "start_time": "2024-12-20 14:00:00",
-    "end_time": "2024-12-20 16:00:00",
-    "notes": "Reunión importante"
-  }'
-
-# Ver slots disponibles
-curl -X GET "http://localhost:8000/api/reservations/available-slots?space_id=1&date=2024-12-20" \
-  -H "Authorization: Bearer YOUR_TOKEN"
+php artisan l5-swagger:generate
 ```
 
-## Lo Más Destacado
+Luego ve a: `http://localhost:8000/api/documentation`
 
-1. **Validación de conflictos robusta**: Detecta cualquier solapamiento de horarios
-2. **Sistema de roles claro**: Admin vs usuario normal
-3. **Tests completos**: Cobertura de casos principales y edge cases
-4. **API RESTful**: Endpoints coherentes y bien estructurados
-5. **Seeders realistas**: Base de datos pre-cargada con espacios útiles
-
-## Notas Importantes
-
-- Todos los endpoints excepto `/api/auth/register` y `/api/auth/login` requieren token JWT
-- Los tokens expiran en 24 horas
-- Solo admin puede crear/editar/eliminar espacios
-- Cada usuario solo ve/edita sus propias reservas
-- Los conflictos horarios se previenen automáticamente
+Ahí puedes probar todos los endpoints desde el navegador.

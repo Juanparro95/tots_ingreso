@@ -65,6 +65,7 @@ class SpaceTest extends TestCase
 
         $response = $this->postJson('/api/spaces', [
             'name' => 'Test Space',
+            'type' => 'sala',
             'description' => 'A test space',
             'capacity' => 20,
             'location' => 'Building A',
@@ -76,11 +77,12 @@ class SpaceTest extends TestCase
         $response->assertStatus(201)
                  ->assertJsonStructure([
                      'message',
-                     'data' => ['id', 'name', 'capacity'],
+                     'data' => ['id', 'name', 'type', 'capacity'],
                  ]);
 
         $this->assertDatabaseHas('spaces', [
             'name' => 'Test Space',
+            'type' => 'sala',
         ]);
     }
 
@@ -88,6 +90,7 @@ class SpaceTest extends TestCase
     {
         $response = $this->postJson('/api/spaces', [
             'name' => 'Test Space',
+            'type' => 'sala',
             'capacity' => 20,
             'location' => 'Building A',
             'hourly_rate' => 100,

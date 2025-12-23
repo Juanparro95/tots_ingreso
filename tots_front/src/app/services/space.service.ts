@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 export interface Space {
   id?: number;
   name: string;
+  type?: string; // 'sala' | 'auditorio' | 'conferencia' | 'taller'
   description?: string;
   capacity: number;
   location: string;
@@ -26,6 +27,7 @@ export class SpaceService {
     min_capacity?: number;
     max_capacity?: number;
     search?: string;
+    type?: string;
   }): Observable<any> {
     let url = this.apiUrl;
     if (filters) {
@@ -33,6 +35,7 @@ export class SpaceService {
       if (filters.min_capacity) params.append('min_capacity', filters.min_capacity.toString());
       if (filters.max_capacity) params.append('max_capacity', filters.max_capacity.toString());
       if (filters.search) params.append('search', filters.search);
+      if (filters.type) params.append('type', filters.type);
       const queryString = params.toString();
       if (queryString) url += '?' + queryString;
     }
@@ -53,5 +56,15 @@ export class SpaceService {
 
   deleteSpace(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`);
+  }
+
+  getAvailableSlots(spaceId: number, date: string): Observable<any> {
+    const reservationsUrl = 'http://localhost:8000/api/reservations/available-slots';
+    return this.http.get(reservationsUrl, {
+      params: {
+        space_id: spaceId.toString(),
+        date: date
+      }
+    });
   }
 }

@@ -44,6 +44,31 @@ export class ReservationFormComponent implements OnInit {
       end_time: ['', [Validators.required]],
       notes: ['', [Validators.maxLength(300)]]
     });
+
+    // Add value change listeners for date validation
+    this.form.get('start_time')?.valueChanges.subscribe(() => this.validateDates());
+    this.form.get('end_time')?.valueChanges.subscribe(() => this.validateDates());
+  }
+
+  validateDates(): void {
+    const startTime = this.form.get('start_time')?.value;
+    const endTime = this.form.get('end_time')?.value;
+
+    if (startTime && endTime) {
+      const start = new Date(startTime);
+      const end = new Date(endTime);
+
+      if (end <= start) {
+        this.form.get('end_time')?.setErrors({ invalidEndTime: true });
+      } else {
+        // Clear the error if dates are valid
+        const errors = this.form.get('end_time')?.errors;
+        if (errors?.['invalidEndTime']) {
+          delete errors['invalidEndTime'];
+          this.form.get('end_time')?.setErrors(Object.keys(errors).length > 0 ? errors : null);
+        }
+      }
+    }
   }
 
   ngOnInit(): void {
@@ -51,6 +76,17 @@ export class ReservationFormComponent implements OnInit {
       if (params['spaceId']) {
         this.spaceId = parseInt(params['spaceId']);
         this.loadSpaceDetails();
+      }
+
+      // Pre-fill dates if provided from calendar
+      if (params['startTime']) {
+        const startDate = new Date(params['startTime']);
+        this.form.patchValue({ start_time: startDate });
+      }
+
+      if (params['endTime']) {
+        const endDate = new Date(params['endTime']);
+        this.form.patchValue({ end_time: endDate });
       }
     });
   }

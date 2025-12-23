@@ -1,240 +1,156 @@
-# Aplicación de Reserva de Espacios para Eventos
+# TOTS - Prueba de Ingreso
+# Por: Juan David Parroquaino Vargas
 
-Una aplicación full-stack moderna para reservar espacios (salas de reuniones, auditorios, etc.) para eventos. Construida con **Angular 21** en el frontend y **Laravel 12** en el backend.
+Sistema de reserva de espacios. Angular 17 (Para usar PrimeNG) + Laravel 12.
 
-## 🎯 Proyecto Completo
+## Quick Start
 
-Este proyecto incluye dos aplicaciones independientes que se comunican mediante una API REST:
-
-### Frontend (Angular 21)
-- **Ubicación**: `tots_front/`
-- **Tipo**: SPA (Single Page Application)
-- **Features**: UI moderna, responsive, autenticación JWT
-- [Ver README Frontend](tots_front/README.md)
-
-### Backend (Laravel 12)
-- **Ubicación**: `tots_backend/`
-- **Tipo**: API REST
-- **Features**: JWT Auth, validaciones, tests, seeders
-- [Ver README Backend](tots_backend/README.md)
-
-## 🚀 Quick Start
-
-### Backend
+### Backend (Laravel)
 
 ```bash
 cd tots_backend
-composer install
 cp .env.example .env
+composer install
 php artisan key:generate
-php artisan migrate --seed
 php artisan jwt:secret
+php artisan migrate --seed
 php artisan serve
 ```
 
-Servidor en `http://localhost:8000`
+Backend: `http://localhost:8000`
 
-### Frontend
+### Frontend (Angular)
 
 ```bash
 cd tots_front
-npm install
+npm install --legacy-peer-deps
 npm start
 ```
 
-Aplicación en `http://localhost:4200`
+Frontend: `http://localhost:4200`
 
-## 📋 Credenciales de Prueba
+## Credenciales de prueba
 
-```
-Email: admin@example.com
-Contraseña: password
-```
+**Admin:**
+- admin@tots.com / password
 
-(Usuario admin para ver panel de administración)
+**Usuario:**
+- user@tots.com / password
 
-## 🏗️ Arquitectura
+O puedes regístrate directamente desde la app (Como usuario user por defecto).
 
-```
-TOTS/
-├── tots_backend/          # API REST (Laravel 12)
-│   ├── app/
-│   │   ├── Http/Controllers/Api/
-│   │   │   ├── AuthController.php
-│   │   │   ├── SpaceController.php
-│   │   │   └── ReservationController.php
-│   │   └── Models/
-│   │       ├── User.php
-│   │       ├── Space.php
-│   │       └── Reservation.php
-│   ├── database/
-│   │   ├── migrations/
-│   │   └── seeders/
-│   ├── tests/
-│   └── routes/api.php
-│
-└── tots_front/            # SPA (Angular 21)
-    ├── src/app/
-    │   ├── components/
-    │   │   ├── home/
-    │   │   ├── login/
-    │   │   ├── register/
-    │   │   ├── spaces/
-    │   │   ├── my-reservations/
-    │   │   └── reservation-form/
-    │   ├── services/
-    │   ├── guards/
-    │   └── interceptors/
-    └── package.json
-```
+## ¿Qué contiene?
 
-## 🔌 API Endpoints
+**Features básicos:**
+- Sistema de auth con JWT
+- Ver espacios disponibles
+- Filtrar espacios (tipo, capacidad, fecha)
+- Reservar espacios
+- Ver mis reservas
+- Editar/cancelar reservas
+- Panel admin para CRUD de espacios
+- Validación de overlaps (no se superponen reservas)
+- Roles admin/usuario
 
-### Autenticación
-- `POST /api/auth/register` - Registro
-- `POST /api/auth/login` - Login
-- `POST /api/auth/logout` - Logout
-- `GET /api/auth/me` - Usuario actual
+**Desarrollos Extras:**
+- Calendario interactivo que muestra disponibilidad por hora
+- Click en el calendario para reservar directamente
+- Notificaciones toast
+- Dark theme con glass morphism
+- 44 tests en backend
+- Swagger docs
+- Campo type con 4 categorías de espacios
 
-### Espacios
-- `GET /api/spaces` - Listar (filtros: min_capacity, max_capacity, search)
-- `GET /api/spaces/{id}` - Detalle
-- `POST /api/spaces` - Crear (Admin)
-- `PUT /api/spaces/{id}` - Editar (Admin)
-- `DELETE /api/spaces/{id}` - Eliminar (Admin)
+## El calendario
 
-### Reservas
-- `GET /api/reservations` - Mis reservas
-- `POST /api/reservations` - Crear
-- `PUT /api/reservations/{id}` - Editar
-- `DELETE /api/reservations/{id}` - Cancelar
-- `GET /api/reservations/available-slots` - Slots libres
+El calendario muestra disponibilidad hora por hora (8am-6pm). Para encontrarlo, debes ingresar a `/spaces`, clickear en `Ver Detalles`, luego ingresas a la pestaña `Disponibilidad`, seleccionas una fecha y se listarán los horarios disponibles de ese día.
 
-## 🗄️ Base de Datos
 
-### Usuarios
-- id, name, email, password, is_admin, timestamps
+## Testing
 
-### Espacios
-- id, name, description, capacity, location, image_url, hourly_rate, timestamps
+44 tests en el backend:
 
-### Reservas
-- id, space_id, user_id, event_name, start_time, end_time, notes, timestamps
-
-## ✨ Características Principales
-
-### Backend
-- ✅ Autenticación JWT
-- ✅ CRUD completo para espacios y reservas
-- ✅ Validación automática de conflictos horarios
-- ✅ Sistema de roles (Admin/Usuario)
-- ✅ Tests unitarios e integración
-- ✅ Seeders con datos de ejemplo
-
-### Frontend
-- ✅ Login/Registro
-- ✅ Listado de espacios con filtros
-- ✅ Detalles de espacios en modal
-- ✅ Crear reservas con validación
-- ✅ Gestionar reservas (ver, editar, cancelar)
-- ✅ Notificaciones en tiempo real
-- ✅ Diseño responsive
-
-## 🛠️ Stack Técnico
-
-### Backend
-- Laravel 12
-- PHP 8.2+
-- MySQL/SQLite
-- JWT Auth
-- PHPUnit
-
-### Frontend
-- Angular 21
-- TypeScript 5.9
-- Tailwind CSS
-- PrimeNG
-- RxJS
-
-## 📚 Documentación
-
-Cada carpeta tiene su propio README con instrucciones detalladas:
-
-- [Backend README](tots_backend/README.md)
-- [Frontend README](tots_front/README.md)
-
-## 🧪 Testing
-
-### Backend
 ```bash
 cd tots_backend
 php artisan test
 ```
 
-Tests incluyen:
-- Autenticación (registro, login)
+Cubren:
+- Auth (registro, login, logout, tokens)
 - CRUD de espacios
-- CRUD de reservas
-- Validación de conflictos
+- CRUD de reservas  
+- Validación de overlaps
+- Permisos de admin
+- Generación de slots disponibles
 
-### Frontend
+## Stack
+
+**Backend:**
+- Laravel 12, PHP 8.2+
+- MySQL (producción), SQLite (tests)
+- JWT (tymon/jwt-auth)
+- PHPUnit
+- Swagger/L5-Swagger
+
+**Frontend:**
+- Angular 17 (standalone components)
+- TypeScript 5.4
+- PrimeNG 17
+- Tailwind CSS
+- RxJS
+
+## Base de datos
+
+**users:** id, name, email, password, is_admin  
+**spaces:** id, name, description, capacity, location, type, image_url, hourly_rate  
+**reservations:** id, space_id, user_id, event_name, start_time, end_time, notes
+
+El type es un enum: sala, auditorio, conferencia, taller.
+
+## Seguridad
+
+- JWT tokens (expiran en 60 minutos)
+- Passwords con bcrypt
+- Validación en backend
+- Guards en frontend
+- Interceptor agrega token automáticamente
+- CORS configurado
+- Los usuarios solo ven sus propias reservas
+
+## Lo que me tomó tiempo
+
+**Backend:**
+1. Validación de overlaps - La lógica para detectar si dos reservas se superponen
+2. Endpoint de available-slots - Calcular qué horas están libres
+3. Sistema de permisos - Admin vs usuario
+4. Los 44 tests - Cubrir todos los casos
+5. Campo type - Con enum y validación
+
+**Frontend:**
+1. Calendario interactivo - Toda la interacción de click-to-reserve
+2. Guards e interceptors - JWT automático, protección de rutas
+3. Validación de fechas - Que end_time sea después de start_time
+4. El diseño dark - Glass morphism con transparencias y gradientes
+5. Notificaciones - Usé Toast para mejor desempeño
+
+## Problemas comunes
+
+**Frontend no instala:**
 ```bash
-cd tots_front
-npm test
+rm -rf node_modules package-lock.json
+npm install --legacy-peer-deps
 ```
 
-## 🔒 Seguridad
+**Puerto en uso:**
+```bash
+php artisan serve --port 8001
+ng serve --port 4300
+```
 
-- Autenticación JWT con tokens seguros
-- Hash de contraseñas con bcrypt
-- Validación en cliente y servidor
-- Guards para proteger rutas privadas
-- CORS configurado correctamente
-- Tokens no se guardan en sesión
+**Tests fallan:**
+```bash
+# Instalar SQLite
+php -m | grep pdo_sqlite
+```
 
-## 📱 Responsivo
-
-La aplicación funciona perfectamente en:
-- 📱 Móviles (320px+)
-- 📱 Tablets (768px+)
-- 🖥️ Desktops (1024px+)
-
-## 🎨 Diseño
-
-- Paleta moderna con indigo/blue
-- Componentes de PrimeNG
-- Tailwind CSS para estilos
-- Iconos con PrimeIcons
-- Dark mode friendly
-
-## 📝 Lo Más Destacado
-
-### Backend
-1. **Validación de conflictos robusta**: Previene cualquier solapamiento de horarios
-2. **Tests completos**: Cobertura de casos principales
-3. **API RESTful pura**: Endpoints coherentes y bien estructurados
-4. **Seeders realistas**: Base de datos pre-poblada
-
-### Frontend
-1. **UI moderna y limpia**: Diseño profesional y atractivo
-2. **Componentes reutilizables**: Arquitectura escalable
-3. **Manejo de errores**: Notificaciones claras
-4. **Totalmente responsive**: Perfecto en cualquier pantalla
-
-## 🤝 Contribuciones
-
-Este proyecto fue desarrollado como un desafío técnico para demostrar:
-- Dominio de Angular y Laravel
-- Implementación correcta de autenticación JWT
-- Diseño de API REST
-- Testing automático
-- Validaciones robustas
-- UI/UX moderno
-
-## 📞 Soporte
-
-Para reportar problemas o sugerencias, consulta los archivos README específicos de cada sección.
-
----
-
-**Desarrollado con ❤️ para reservar espacios de forma fácil y segura.**
+El más complejo fue la versión compatible de PrimeNG, tenía Angular 21 y lo reduje a 17, puesto que en esa versión tenía la versión free.
