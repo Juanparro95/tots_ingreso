@@ -107,7 +107,7 @@ GET /api/spaces?type=sala&min_capacity=10&date=2025-12-25
 | PUT | `/api/reservations/{id}` | Actualizar reserva | Sí | No |
 | DELETE | `/api/reservations/{id}` | Cancelar reserva | Sí | No |
 
-Los usuarios solo pueden ver/editar/eliminar sus propias reservas. La validación de overlaps es automática - si intentas reservar un horario ocupado, te devuelve error 422.
+Los usuarios solo pueden ver/editar/eliminar sus propias reservas. Si intentas reservar un horario ocupado, te devuelve error 422.
 
 ## Testing
 

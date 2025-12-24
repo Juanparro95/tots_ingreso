@@ -34,38 +34,6 @@ La app estará en `http://localhost:4200`
 
 **Nota:** El `--legacy-peer-deps` es necesario por algunas dependencias de PrimeNG. Es normal.
 
-## Estructura
-
-```
-src/app/
-├── components/
-│   ├── home/                          # Landing page
-│   ├── navbar/                        # Barra de navegación
-│   ├── login/                         # Login
-│   ├── register/                      # Registro
-│   ├── spaces/                        # Listado de espacios
-│   ├── space-availability-calendar/   # El calendario (lo más interesante)
-│   ├── reservation-form/              # Formulario de reserva
-│   ├── my-reservations/               # Mis reservas
-│   └── admin-spaces/                  # Panel admin (CRUD espacios)
-│
-├── services/
-│   ├── auth.service.ts                # Login, registro, JWT
-│   ├── space.service.ts               # CRUD espacios
-│   ├── reservation.service.ts         # CRUD reservas
-│   └── notification.service.ts        # Toasts
-│
-├── guards/
-│   ├── auth.guard.ts                  # Proteger rutas (requiere login)
-│   └── admin.guard.ts                 # Solo admins
-│
-├── interceptors/
-│   └── jwt.interceptor.ts             # Agregar token a requests
-│
-├── app.routes.ts                      # Definición de rutas
-└── app.config.ts                      # Configuración de la app
-```
-
 ## Rutas
 
 | Ruta | Componente | Público | Auth | Admin |

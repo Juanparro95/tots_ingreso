@@ -49,7 +49,6 @@ O puedes regístrate directamente desde la app (Como usuario user por defecto).
 - Ver mis reservas
 - Editar/cancelar reservas
 - Panel admin para CRUD de espacios
-- Validación de overlaps (no se superponen reservas)
 - Roles admin/usuario
 
 **Desarrollos Extras:**
@@ -120,37 +119,17 @@ El type es un enum: sala, auditorio, conferencia, taller.
 ## Lo que me tomó tiempo
 
 **Backend:**
-1. Validación de overlaps - La lógica para detectar si dos reservas se superponen
+1. Validación para detectar si dos reservas se superponen
 2. Endpoint de available-slots - Calcular qué horas están libres
 3. Sistema de permisos - Admin vs usuario
 4. Los 44 tests - Cubrir todos los casos
 5. Campo type - Con enum y validación
 
 **Frontend:**
-1. Calendario interactivo - Toda la interacción de click-to-reserve
+1. Calendario interactivo - Reserva con un click
 2. Guards e interceptors - JWT automático, protección de rutas
 3. Validación de fechas - Que end_time sea después de start_time
 4. El diseño dark - Glass morphism con transparencias y gradientes
 5. Notificaciones - Usé Toast para mejor desempeño
-
-## Problemas comunes
-
-**Frontend no instala:**
-```bash
-rm -rf node_modules package-lock.json
-npm install --legacy-peer-deps
-```
-
-**Puerto en uso:**
-```bash
-php artisan serve --port 8001
-ng serve --port 4300
-```
-
-**Tests fallan:**
-```bash
-# Instalar SQLite
-php -m | grep pdo_sqlite
-```
 
 El más complejo fue la versión compatible de PrimeNG, tenía Angular 21 y lo reduje a 17, puesto que en esa versión tenía la versión free.
